@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 #
 # GrovePi Example for using the Grove - Temperature&Humidity Sensor (High-Accuracy & Mini)(http://www.seeedstudio.com/depot/Grove-TemperatureHumidity-Sensor-HighAccuracy-Mini-p-1921.html
-#		
+#
 # This example prints the gesture on the screen when a user does an action over the sensor
 #
 # The GrovePi connects the Raspberry Pi and Grove sensors.  You can learn more about GrovePi here:  http://www.dexterindustries.com/GrovePi
@@ -9,7 +9,7 @@
 # Have a question about this example?  Ask on the forums here:  http://forum.dexterindustries.com/c/grovepi
 #
 '''
-## License
+# License
 
 The MIT License (MIT)
 
@@ -43,17 +43,13 @@ import time
 import hp206c
 
 
-t= temperature_humidity.th02()
-h= hp206c.hp206c()
+t = temperature_humidity.th02()
+h = hp206c.hp206c()
 
 
 while True:
-	print("Temp: %.2fC\tHumidity:%.2f" %(t.getTemperature(),t.getHumidity()),"%") 
-    ret=h.isAvailable()
-    if h.OK_HP20X_DEV == ret:
-        print("HP20x_dev is available.")
-    else:
-        print("HP20x_dev isn't available.")
+	print("Temp: %.2fC\tHumidity:%.2f" %
+	      (t.getTemperature(), t.getHumidity()), "%")
         
     temp=h.ReadTemperature()
     pressure=h.ReadPressure()
