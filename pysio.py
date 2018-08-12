@@ -40,11 +40,11 @@ THE SOFTWARE.
 #################################################################################################################################################
 import temperature_humidity
 import time
-import hp206c
+import barometer
 
 
 t = temperature_humidity.th02()
-h = hp206c.hp206c()
+h = barometer.hp206c()
 
 
 while True:
