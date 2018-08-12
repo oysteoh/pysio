@@ -22,7 +22,7 @@
 import logging
 import subprocess
 
-import platform as Platform
+import Platform as Platform
 
 
 def reverseByteOrder(data):
