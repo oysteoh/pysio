@@ -35,7 +35,7 @@ THE SOFTWARE.
 '''
 
 import time,sys
-import I2C as I2C
+import i2c as I2C
 
 class hp206c:
 	HP20X_I2C_DEV_ID       =(0xEC)>>1    #CSB PIN is VDD level(address is 0x76)
