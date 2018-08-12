@@ -48,12 +48,9 @@ h = hp206c.hp206c()
 
 
 while True:
-	print("Temp: %.2fC\tHumidity:%.2f" %
-	      (t.getTemperature(), t.getHumidity()), "%")
-        
+    print("Temp: %.2fC\tHumidity:%.2f" % (t.getTemperature(), t.getHumidity()), "%")
     temp=h.ReadTemperature()
     pressure=h.ReadPressure()
     altitude=h.ReadAltitude()
     print("Temperature\t: %.2f C\nPressure\t: %.2f hPa\nAltitude\t: %.2f m" %(temp,pressure,altitude))
-
-	time.sleep(.5)
+    time.sleep(.5)
