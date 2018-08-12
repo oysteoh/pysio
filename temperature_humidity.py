@@ -46,7 +46,7 @@ rev = GPIO.RPI_REVISION
 if rev == 2 or rev == 3:
     bus = smbus.SMBus(1)
 else:
-    bus = smbus.SMBus(0)
+    bus = smbus.SMBus(0) 
 
 class th02:
 	
@@ -77,7 +77,7 @@ class th02:
 		t_raw=bus.read_i2c_block_data(self.ADDRESS, self.TH02_REG_DATA_H,3)
 		if debug:
 			print(t_raw)
-		temperature = (t_raw[1]<<8|t_raw[2])>>2
+		temperature = (t_raw[0]<<8|t_raw[1])>>2
 		return (temperature/32.0)-50.0
 		
 	def getHumidity(self):
@@ -92,8 +92,8 @@ class th02:
 		t_raw=bus.read_i2c_block_data(self.ADDRESS, self.TH02_REG_DATA_H,3)
 		if debug:
 			print(t_raw)
-		temperature = (t_raw[1]<<8|t_raw[2])>>4
-		return (temperature/16.0)-24.0
+		humidity = (t_raw[0]<<8|t_raw[1])>>4
+		return (humidity/16.0)-24.0
 		
 	def getStatus(self):
 		status=bus.read_i2c_block_data(self.ADDRESS, self.TH02_REG_STATUS,1)
