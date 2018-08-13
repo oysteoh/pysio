@@ -53,4 +53,4 @@ while True:
     pressure=h.ReadPressure()
     altitude=h.ReadAltitude()
     print("Temperature\t: %.2f C\nPressure\t: %.2f hPa\nAltitude\t: %.2f m" %(temp,pressure,altitude))
-    time.sleep(.5)
+    time.sleep(60)
