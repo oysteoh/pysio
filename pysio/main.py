@@ -10,7 +10,7 @@ if __name__ == '__main__':
     h = barometer.hp206c()
 
     row = [t.getTemperature(), t.getHumidity()]
-    with open('/home/pi/log.csv','wb') as logfile:
+    with open('/home/pi/log.csv','a') as logfile:
         writer = csv.writer(logfile)
         writer.writerow(row)
 
