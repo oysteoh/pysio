@@ -140,16 +140,3 @@ class hp206c:
 	def HP20X_IIC_ReadReg(self, bReg):
 		# self.HP20X_IIC_WriteCmd(bReg|self.HP20X_RD_REG_MODE)
 		return bus.read_byte_data(self.address, bReg|self.HP20X_RD_REG_MODE)
-
-if __name__ == "__main__":	
-	h= hp206c()
-	ret=h.isAvailable()
-	if h.OK_HP20X_DEV == ret:
-		print("HP20x_dev is available.")   
-	else:
-		print("HP20x_dev isn't available.")
-		
-	temp=h.ReadTemperature()
-	pressure=h.ReadPressure()
-	altitude=h.ReadAltitude()
-	print(temp,pressure,altitude)	
