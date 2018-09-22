@@ -36,7 +36,7 @@ THE SOFTWARE.
 
 import time,sys
 import RPi.GPIO as GPIO
-import smbus
+import smbus2 as smbus
 
 # use the bus that matches your raspi version
 rev = GPIO.RPI_REVISION
