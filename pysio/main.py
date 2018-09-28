@@ -21,7 +21,7 @@ if __name__ == '__main__':
         "measurement": "luftfuktighet_bod",
         "time": time,
         "fields": {
-            "Float_value": t.getHumidity()
+            "value": t.getHumidity()
         }
     },    {
          "tags": {
@@ -31,7 +31,7 @@ if __name__ == '__main__':
         "measurement": "temperatur_0_bod",
         "time": time,
         "fields": {
-            "Float_value": t.getTemperature()
+            "value": t.getTemperature()
         }
     }, {
          "tags": {
@@ -41,7 +41,7 @@ if __name__ == '__main__':
         "measurement": "temperatur_1_bod",
         "time": time,
         "fields": {
-            "Float_value": h.ReadTemperature()
+            "value": h.ReadTemperature()
         }
     }, {
          "tags": {
@@ -51,7 +51,7 @@ if __name__ == '__main__':
         "measurement": "barometertrykk",
         "time": time,
         "fields": {
-            "Float_value": h.ReadPressure()
+            "value": h.ReadPressure()
         }
     }]
 
