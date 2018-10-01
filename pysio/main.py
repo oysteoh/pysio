@@ -29,7 +29,7 @@ if __name__ == '__main__':
             "room": "shed"
         },
         "fields": {
-            "value_1": t.getTemperature()
+            "value_1": t.getTemperature(),
             "value_2": h.ReadTemperature()
         }
     }, {
