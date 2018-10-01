@@ -14,50 +14,36 @@ if __name__ == '__main__':
     dbclient = InfluxDBClient('10.0.0.2', 8086, 'root', 'root', 'pysio')
 
     json_body = [{
+        "measurement": "humidity",
         "tags": {
-            "placement": "shed",
-            "type": "humidity"
+            "place": "home",
+            "room": "shed"
         },
-        "measurement": "luftfuktighet_bod",
-        "time": time,
         "fields": {
             "value": t.getHumidity()
         }
-    },    {
-         "tags": {
-            "placement": "shed",
-            "type": "temperature_0"
+    }, {
+        "measurement": "temperature",
+        "tags": {
+            "place": "home",
+            "room": "shed"
         },
-        "measurement": "temperatur_0_bod",
-        "time": time,
         "fields": {
-            "value": t.getTemperature()
+            "value_1": t.getTemperature()
+            "value_2": h.ReadTemperature()
         }
     }, {
-         "tags": {
-            "placement": "shed",
-            "type": "temperature_1"
+        "measurement": "pressure",
+        "tags": {
+            "place": "home",
+            "room": "shed"
         },
-        "measurement": "temperatur_1_bod",
-        "time": time,
-        "fields": {
-            "value": h.ReadTemperature()
-        }
-    }, {
-         "tags": {
-            "placement": "shed",
-            "type": "pressure"
-        },
-        "measurement": "barometertrykk",
-        "time": time,
         "fields": {
             "value": h.ReadPressure()
         }
     }]
 
     dbclient.write_points(json_body)
-
-
 
     # row = [datetime.datetime.utcnow(), t.getTemperature(), h.ReadTemperature(), t.getHumidity(), h.ReadPressure()]
     # with open('/home/pi/log.csv','a') as logfile:
