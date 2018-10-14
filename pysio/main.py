@@ -27,7 +27,6 @@ if __name__ == '__main__':
 
     # Convert the data to 14-bits
     cTemp = ((data[1] * 256 + (data[2] & 0xFC))/ 4.0) / 32.0 - 50.0
-    fTemp = cTemp * 1.8 + 32
 
     # TH02 address, 0x40(64)
     # Select configuration register, 0x03(03)
@@ -49,48 +48,71 @@ if __name__ == '__main__':
     # Output data to screen
     print("Relative Humidity : %.2f %%" %humidity)
     print("Temperature in Celsius : %.2f C" %cTemp)
-    print("Temperature in Fahrenheit : %.2f F" %fTemp)
     
-    # t = temperature_humidity.th02()
-    # h = barometer.hp206c()
+    # HP206C address, 0x76(118)
+    # Send OSR and channel setting command, 0x44(68)
+    bus.write_byte(0x76, 0x44 | 0x00)
 
-    # print("Temp: %.2fC\tHumidity:%.2f" %(t.getTemperature(),t.getHumidity()),"%") 
-    # time = datetime.datetime.utcnow()
-    # dbclient = InfluxDBClient('10.0.0.2', 8086, 'root', 'root', 'pysio')
-# 
-    # json_body = [{
-    #     "measurement": "humidity",
-    #     "tags": {
-    #         "place": "home",
-    #         "room": "shed"
-    #     },
-    #     "fields": {
-    #         "value": t.getHumidity()
-    #     }
-    # }, {
-    #     "measurement": "temperature",
-    #     "tags": {
-    #         "place": "home",
-    #         "room": "shed"
-    #     },
-    #     "fields": {
-    #         "value_1": t.getTemperature(),
-    #         "value_2": h.ReadTemperature()
-    #     }
-    # }, {
-    #     "measurement": "pressure",
-    #     "tags": {
-    #         "place": "home",
-    #         "room": "shed"
-    #     },
-    #     "fields": {
-    #         "value": h.ReadPressure()
-    #     }
-    # }]
+    time.sleep(0.5)
+
+    # HP206C address, 0x76(118)
+    # Read data back from 0x10(16), 6 bytes
+    # cTemp MSB, cTemp CSB, cTemp LSB, pressure MSB, pressure CSB, pressure LSB
+    data = bus.read_i2c_block_data(0x76, 0x10, 6)
+
+    # Convert the data to 20-bits
+    cTemp2 = (((data[0] & 0x0F) * 65536) + (data[1] * 256) + data[2]) / 100.00
+    pressure = (((data[3] & 0x0F) * 65536) + (data[4] * 256) + data[5]) / 100.00
+
+    # HP206C address, 0x76(118)
+    # Send OSR and channel setting command, 0x44(68)
+    bus.write_byte(0x76, 0x44 | 0x01)
+
+    time.sleep(0.5)
+
+    # HP206C address, 0x76(118)
+    # Read data back from 0x31(49), 3 bytes
+    # altitude MSB, altitude CSB, altitude LSB
+    data = bus.read_i2c_block_data(0x76, 0x31, 3)
+
+    # Convert the data to 20-bits
+    altitude = (((data[0] & 0x0F) * 65536) + (data[1] * 256) + data[2]) / 100.00
+
+    # Output data to screen
+    print("Altitude : %.2f m" %altitude)
+    print("Pressure : %.2f Pa" %pressure)
+    print("Temperature in Celsius : %.2f C" %cTemp2)
+    time = datetime.datetime.utcnow()
+    dbclient = InfluxDBClient('10.0.0.2', 8086, 'root', 'root', 'pysio')
+
+    json_body = [{
+        "measurement": "humidity",
+        "tags": {
+            "place": "home",
+            "room": "shed"
+        },
+        "fields": {
+            "value": humidity
+        }
+    }, {
+        "measurement": "temperature",
+        "tags": {
+            "place": "home",
+            "room": "shed"
+        },
+        "fields": {
+            "value_1": cTemp,
+            "value_2": cTemp2
+        }
+    }, {
+        "measurement": "pressure",
+        "tags": {
+            "place": "home",
+            "room": "shed"
+        },
+        "fields": {
+            "value": pressure
+        }
+    }]
 
     # dbclient.write_points(json_body)
-
-    # row = [datetime.datetime.utcnow(), t.getTemperature(), h.ReadTemperature(), t.getHumidity(), h.ReadPressure()]
-    # with open('/home/pi/log.csv','a') as logfile:
-    #    writer = csv.writer(logfile)
-    #    writer.writerow(row)
