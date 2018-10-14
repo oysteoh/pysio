@@ -40,7 +40,7 @@ import time,sys
 import RPi.GPIO as GPIO
 import smbus2 as smbus
 
-debug = 0
+debug = 1
 # use the bus that matches your raspi version
 rev = GPIO.RPI_REVISION
 if rev == 2 or rev == 3:
