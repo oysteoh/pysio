@@ -11,8 +11,7 @@ if __name__ == '__main__':
     t = temperature_humidity.th02()
     h = barometer.hp206c()
 
-    print(t.getTemperature())
-    print(t.getHumidity())
+    print("Temp: %.2fC\tHumidity:%.2f" %(t.getTemperature(),t.getHumidity()),"%") 
     # time = datetime.datetime.utcnow()
     # dbclient = InfluxDBClient('10.0.0.2', 8086, 'root', 'root', 'pysio')
 # 
