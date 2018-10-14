@@ -115,4 +115,4 @@ if __name__ == '__main__':
         }
     }]
 
-    # dbclient.write_points(json_body)
+    dbclient.write_points(json_body)
