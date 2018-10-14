@@ -3,7 +3,8 @@
 import sys
 import csv
 import datetime
-import smbus
+import time
+import smbus2 as smbus
 from influxdb import InfluxDBClient
 from lib import barometer
 from lib import temperature_humidity
