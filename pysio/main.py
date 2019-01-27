@@ -91,7 +91,7 @@ if __name__ == '__main__':
 
     # Returns a message or Application Data Unit (ADU) specific for doing
     # Modbus TCP/IP.
-    message = tcp.write_multiple_registers(slave_id=2, starting_address=0, values=[cTemp2])
+    message = tcp.write_multiple_registers(slave_id=2, starting_address=0, values=[int(cTemp2)])
 
     # Response depends on Modbus function code. This particular returns the
     # amount of coils written, in this case it is.
