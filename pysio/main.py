@@ -81,6 +81,4 @@ if __name__ == '__main__':
     print("Temperature in Celsius : %.2f C" %cTemp2)
 
     with open("/home/pi/log_file.txt", "w") as log_file:
-        log_file.write(str(int(cTemp2))
-
-   
+        log_file.write(str(int(cTemp2)))
