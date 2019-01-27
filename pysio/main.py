@@ -80,7 +80,7 @@ if __name__ == '__main__':
     print("Pressure : %.2f Pa" %pressure)
     print("Temperature in Celsius : %.2f C" %cTemp2)
 
-    with open("~/log_file.txt", "w") as log_file:
+    with open("/home/pi/log_file.txt", "w") as log_file:
         log_file.write(int(cTemp2))
 
    
