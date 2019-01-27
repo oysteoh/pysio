@@ -5,9 +5,6 @@ import csv
 import datetime
 import time
 import smbus2 as smbus
-import socket
-from umodbus import conf
-from umodbus.client import tcp
 
 if __name__ == '__main__':
         # Get I2C bus
@@ -83,17 +80,7 @@ if __name__ == '__main__':
     print("Pressure : %.2f Pa" %pressure)
     print("Temperature in Celsius : %.2f C" %cTemp2)
 
-    # Enable values to be signed (default is False).
-    conf.SIGNED_VALUES = True
+    with open("~/log_file.txt", "w") as log_file:
+        log_file.write(int(cTemp2))
 
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.connect(('192.168.1.122', 1502))
-
-    # Returns a message or Application Data Unit (ADU) specific for doing
-    # Modbus TCP/IP.
-    message = tcp.write_multiple_registers(slave_id=2, starting_address=0, values=[int(cTemp2)])
-
-    # Response depends on Modbus function code. This particular returns the
-    # amount of coils written, in this case it is.
-    response = tcp.send_message(message, sock)
-    sock.close()
+   
