@@ -5,9 +5,9 @@ import csv
 import datetime
 import time
 import smbus2 as smbus
-from influxdb import InfluxDBClient
-from lib import barometer
-from lib import temperature_humidity
+import socket
+from umodbus import conf
+from umodbus.client import tcp
 
 if __name__ == '__main__':
         # Get I2C bus
@@ -82,37 +82,18 @@ if __name__ == '__main__':
     print("Altitude : %.2f m" %altitude)
     print("Pressure : %.2f Pa" %pressure)
     print("Temperature in Celsius : %.2f C" %cTemp2)
-    time = datetime.datetime.utcnow()
-    dbclient = InfluxDBClient('10.0.0.2', 8086, 'root', 'root', 'pysio')
 
-    json_body = [{
-        "measurement": "humidity",
-        "tags": {
-            "place": "home",
-            "room": "shed"
-        },
-        "fields": {
-            "value": humidity
-        }
-    }, {
-        "measurement": "temperature",
-        "tags": {
-            "place": "home",
-            "room": "shed"
-        },
-        "fields": {
-            "value_1": cTemp,
-            "value_2": cTemp2
-        }
-    }, {
-        "measurement": "pressure",
-        "tags": {
-            "place": "home",
-            "room": "shed"
-        },
-        "fields": {
-            "value": pressure
-        }
-    }]
+    # Enable values to be signed (default is False).
+    conf.SIGNED_VALUES = True
 
-    dbclient.write_points(json_body)
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect(('192.168.1.122', 1502))
+
+    # Returns a message or Application Data Unit (ADU) specific for doing
+    # Modbus TCP/IP.
+    message = tcp.write_multiple_registers(slave_id=2, starting_address=0, values=[cTemp2])
+
+    # Response depends on Modbus function code. This particular returns the
+    # amount of coils written, in this case it is.
+    response = tcp.send_message(message, sock)
+    sock.close()
